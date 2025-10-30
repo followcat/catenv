@@ -119,8 +119,8 @@ nvm use --lts
 
 4. 安装 GitHub Copilot CLI：
 ```bash
-npm install -g @githubnext/github-copilot-cli
-github-copilot-cli auth
+npm install -g @github/copilot
+copilot auth
 ```
 
 ### 快捷键
