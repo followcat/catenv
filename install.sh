@@ -88,10 +88,21 @@ install_neovim() {
     fi
     
     if [[ "$OS" == "ubuntu" ]] || [[ "$OS" == "debian" ]]; then
-        # 添加 Neovim PPA 获取最新版本
-        sudo add-apt-repository -y ppa:neovim-ppa/unstable
-        sudo apt update
-        sudo apt install -y neovim
+        # 从 GitHub 下载最新发布版
+        log_info "从 GitHub 下载 Neovim 最新发布版..."
+        
+        # 获取最新版本号
+        NVIM_VERSION=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+        log_info "最新版本: $NVIM_VERSION"
+        
+        # 下载并安装
+        cd /tmp
+        curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+        sudo rm -rf /opt/nvim
+        sudo tar -C /opt -xzf nvim-linux64.tar.gz
+        sudo ln -sf /opt/nvim-linux64/bin/nvim /usr/local/bin/nvim
+        rm nvim-linux64.tar.gz
+        
     elif [[ "$OS" == "macos" ]]; then
         brew install neovim
     fi
