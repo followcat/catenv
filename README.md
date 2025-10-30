@@ -84,13 +84,20 @@ nvm --version    # 检查 NVM
 node --version   # 检查 Node.js
 npm --version    # 检查 npm
 pyenv --version  # 检查 Pyenv
+rye --version    # 检查 Rye
 nvim --version   # 检查 Neovim
 ```
 
 2. 安装 Python 版本（可选）：
 ```bash
+# 使用 Pyenv
 pyenv install 3.12.0
 pyenv global 3.12.0
+
+# 或使用 Rye（推荐用于项目）
+rye init myproject
+cd myproject
+rye sync
 ```
 
 3. 安装 Node.js（已自动安装 LTS 版本）：
