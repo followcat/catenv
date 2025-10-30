@@ -265,8 +265,10 @@ backup() {
 }
 
 # GitHub Copilot CLI 别名
-if command -v github-copilot-cli &> /dev/null; then
-    eval "$(github-copilot-cli alias -- "$0")"
+if command -v copilot &> /dev/null; then
+    alias ghcp="copilot"
+    alias ghchat="copilot"
+    alias ask="copilot"
 fi
 
 # ============================================
