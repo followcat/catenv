@@ -95,24 +95,16 @@ install_neovim() {
         NVIM_VERSION=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
         log_info "最新版本: $NVIM_VERSION"
         
-        # 下载并安装
+        # 下载并安装 (x86_64)
         cd /tmp
-        DOWNLOAD_URL="https://github.com/neovim/neovim/releases/download/${NVIM_VERSION}/nvim-linux64.tar.gz"
+        DOWNLOAD_URL="https://github.com/neovim/neovim/releases/download/${NVIM_VERSION}/nvim-linux-x86_64.tar.gz"
         log_info "下载地址: $DOWNLOAD_URL"
         
-        if curl -fL "$DOWNLOAD_URL" -o nvim-linux64.tar.gz; then
-            sudo rm -rf /opt/nvim-linux64
-            sudo tar -C /opt -xzf nvim-linux64.tar.gz
-            sudo ln -sf /opt/nvim-linux64/bin/nvim /usr/local/bin/nvim
-            rm nvim-linux64.tar.gz
-            log_success "Neovim 下载安装成功"
-        else
-            log_error "下载失败，尝试备用方案：使用 AppImage"
-            curl -fLO "https://github.com/neovim/neovim/releases/download/${NVIM_VERSION}/nvim.appimage"
-            chmod u+x nvim.appimage
-            sudo mv nvim.appimage /usr/local/bin/nvim
-            log_success "Neovim AppImage 安装成功"
-        fi
+        curl -fL "$DOWNLOAD_URL" -o nvim-linux-x86_64.tar.gz
+        sudo rm -rf /opt/nvim-linux-x86_64
+        sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+        sudo ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
+        rm nvim-linux-x86_64.tar.gz
         
     elif [[ "$OS" == "macos" ]]; then
         brew install neovim
