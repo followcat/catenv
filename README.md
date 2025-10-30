@@ -54,11 +54,31 @@ cd catenv
 
 ## 使用说明
 
-### 安装后需要做的
+### ⚠️ 重要：安装后必须重新加载配置
 
-1. 重启终端或执行：
+安装完成后，**必须**执行以下操作之一：
+
+**方案 1：重新加载配置（推荐）**
 ```bash
 source ~/.zshrc
+```
+
+**方案 2：重启终端**
+```bash
+exec zsh
+```
+
+**方案 3：关闭并重新打开终端应用**
+
+### 安装后需要做的
+
+1. 验证工具是否可用：
+```bash
+nvm --version    # 检查 NVM
+node --version   # 检查 Node.js
+npm --version    # 检查 npm
+pyenv --version  # 检查 Pyenv
+nvim --version   # 检查 Neovim
 ```
 
 2. 安装 Python 版本（可选）：
