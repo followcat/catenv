@@ -44,6 +44,11 @@ if command -v pyenv 1>/dev/null 2>&1; then
     eval "$(pyenv virtualenv-init -)"
 fi
 
+# Rye 配置
+if [ -f "$HOME/.rye/env" ]; then
+    source "$HOME/.rye/env"
+fi
+
 # NVM 配置
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"

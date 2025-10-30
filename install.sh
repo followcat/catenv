@@ -136,6 +136,21 @@ install_pyenv() {
     log_success "Pyenv 安装完成"
 }
 
+# 安装 Rye
+install_rye() {
+    log_info "安装 Rye..."
+    
+    if command -v rye &> /dev/null; then
+        log_warning "Rye 已安装，跳过"
+        return
+    fi
+    
+    # 安装 Rye
+    curl -sSf https://rye.astral.sh/get | bash
+    
+    log_success "Rye 安装完成"
+}
+
 # 安装 NVM
 install_nvm() {
     log_info "安装 NVM..."
@@ -260,6 +275,11 @@ export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
+# Rye 配置
+if [ -f "$HOME/.rye/env" ]; then
+    source "$HOME/.rye/env"
+fi
+
 # NVM 配置
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -312,8 +332,13 @@ print_completion_message() {
     echo "  1. 重启终端或执行: source ~/.zshrc"
     echo ""
     echo "  2. 安装 Python (可选):"
+    echo "     # 使用 Pyenv:"
     echo "     pyenv install 3.12.0"
     echo "     pyenv global 3.12.0"
+    echo ""
+    echo "     # 或使用 Rye (推荐用于项目):"
+    echo "     rye init myproject"
+    echo "     cd myproject && rye sync"
     echo ""
     echo "  3. Node.js 已自动安装，验证:"
     echo "     node --version"
@@ -347,6 +372,7 @@ main() {
     install_dependencies
     install_neovim
     install_pyenv
+    install_rye
     install_nvm
     install_oh_my_zsh
     install_zsh_plugins

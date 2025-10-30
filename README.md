@@ -6,6 +6,7 @@
 
 - ✅ 安装最新版 Neovim
 - ✅ 安装和配置 Pyenv (Python 版本管理)
+- ✅ 安装和配置 Rye (现代化 Python 项目管理)
 - ✅ 安装和配置 NVM (Node.js 版本管理)
 - ✅ 安装和配置 Zsh + Oh-My-Zsh
 - ✅ 安装 fzf (强大的历史命令浏览工具)
@@ -32,6 +33,11 @@ cd catenv
 
 ### Pyenv
 - Python 版本管理工具
+- 自动配置环境变量
+
+### Rye
+- 现代化的 Python 项目和包管理工具
+- 一站式解决方案：依赖管理、虚拟环境、打包发布
 - 自动配置环境变量
 
 ### NVM

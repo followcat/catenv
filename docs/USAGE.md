@@ -66,7 +66,53 @@ pyenv activate myproject
 pyenv deactivate
 ```
 
-### 3. NVM (Node.js 版本管理)
+### 3. Rye (现代化 Python 项目管理)
+
+#### 创建新项目
+```bash
+rye init myproject          # 创建新项目
+cd myproject
+```
+
+#### 添加依赖
+```bash
+rye add requests            # 添加依赖
+rye add pytest --dev        # 添加开发依赖
+```
+
+#### 同步依赖
+```bash
+rye sync                    # 安装所有依赖
+```
+
+#### 运行命令
+```bash
+rye run python script.py    # 在项目环境中运行
+rye run pytest              # 运行测试
+```
+
+#### 管理 Python 版本
+```bash
+rye pin 3.12                # 设置项目 Python 版本
+rye fetch 3.12              # 下载指定 Python 版本
+```
+
+#### 构建和发布
+```bash
+rye build                   # 构建包
+rye publish                 # 发布到 PyPI
+```
+
+#### 常用命令
+```bash
+rye list                    # 列出依赖
+rye remove package          # 移除依赖
+rye lock                    # 锁定依赖版本
+rye fmt                     # 格式化代码
+rye lint                    # 代码检查
+```
+
+### 4. NVM (Node.js 版本管理)
 
 #### 安装 Node.js
 ```bash
@@ -92,7 +138,7 @@ nvm alias default 18.17.0
 nvm ls
 ```
 
-### 4. Zsh 和 Oh-My-Zsh
+### 5. Zsh 和 Oh-My-Zsh
 
 #### 常用插件
 
@@ -118,7 +164,7 @@ source ~/.zshrc
 reload
 ```
 
-### 5. fzf (模糊查找)
+### 6. fzf (模糊查找)
 
 #### 快捷键
 - `Ctrl + R` - 搜索历史命令
@@ -140,7 +186,7 @@ ps aux | fzf
 rm $(fzf -m)                # -m 允许多选
 ```
 
-### 6. GitHub Copilot CLI
+### 7. GitHub Copilot CLI
 
 #### 安装
 ```bash
