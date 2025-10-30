@@ -55,6 +55,9 @@ install_dependencies() {
             wget \
             git \
             zsh \
+            tmux \
+            htop \
+            screen \
             libssl-dev \
             zlib1g-dev \
             libbz2-dev \
@@ -72,7 +75,7 @@ install_dependencies() {
             log_info "安装 Homebrew..."
             /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         fi
-        brew install openssl readline sqlite3 xz zlib
+        brew install openssl readline sqlite3 xz zlib tmux htop screen
     fi
     
     log_success "系统依赖安装完成"
@@ -234,6 +237,25 @@ install_zsh_plugins() {
     fi
 }
 
+# 配置 Tmux
+configure_tmux() {
+    log_info "配置 Tmux..."
+    
+    # 备份现有配置
+    if [ -f "$HOME/.tmux.conf" ]; then
+        cp "$HOME/.tmux.conf" "$HOME/.tmux.conf.backup.$(date +%Y%m%d%H%M%S)"
+        log_info "已备份现有 .tmux.conf"
+    fi
+    
+    # 使用自定义配置
+    if [ -f "config/.tmux.conf" ]; then
+        cp config/.tmux.conf ~/.tmux.conf
+        log_info "已应用自定义 .tmux.conf 配置"
+    fi
+    
+    log_success "Tmux 配置完成"
+}
+
 # 配置 Zsh
 configure_zsh() {
     log_info "配置 Zsh..."
@@ -376,6 +398,7 @@ main() {
     install_nvm
     install_oh_my_zsh
     install_zsh_plugins
+    configure_tmux
     configure_zsh
     set_default_shell
     
