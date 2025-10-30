@@ -2,35 +2,19 @@
 
 ## 安装
 
-### 新版本 (推荐)
-
 ```bash
 npm install -g @github/copilot
 ```
 
-### 旧版本
-
-```bash
-npm install -g @githubnext/github-copilot-cli
-```
-
 ## 认证
 
-### 新版本
 ```bash
 copilot auth
-```
-
-### 旧版本
-```bash
-github-copilot-cli auth
 ```
 
 按照提示在浏览器中完成 GitHub 授权。
 
 ## 基本使用
-
-### 新版本 (@github/copilot)
 
 ```bash
 # 启动交互式聊天
@@ -44,19 +28,6 @@ copilot --file script.py "explain this code"
 
 # 生成 shell 命令
 copilot "compress all .log files"
-```
-
-### 旧版本 (@githubnext/github-copilot-cli)
-
-```bash
-# Shell 命令建议
-?? how to find large files
-
-# Git 命令建议
-git? undo last commit
-
-# GitHub CLI 建议
-gh? create a new issue
 ```
 
 ## 在 Tmux 中使用 Copilot
@@ -340,9 +311,6 @@ alias ask="copilot"
 ```bash
 # 重新认证
 copilot auth
-
-# 检查认证状态
-copilot auth status
 ```
 
 ### 命令未找到

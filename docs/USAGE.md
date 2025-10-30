@@ -190,26 +190,26 @@ rm $(fzf -m)                # -m 允许多选
 
 #### 安装
 ```bash
-npm install -g @githubnext/github-copilot-cli
+npm install -g @github/copilot
 ```
 
 #### 认证
 ```bash
-github-copilot-cli auth
+copilot auth
 ```
 
 #### 使用
 
-配置完成后，可以使用以下别名：
 ```bash
-# 使用 ?? 获取 Shell 命令建议
-?? how to find large files
+# 启动交互式聊天
+copilot
 
-# 使用 git? 获取 Git 命令建议
-git? undo last commit
+# 直接提问
+copilot "how to find large files"
 
-# 使用 gh? 获取 GitHub CLI 建议
-gh? create a new issue
+# 使用别名
+ask "explain this error message"
+ghcp "create a bash script"
 ```
 
 ## 实用别名和函数
