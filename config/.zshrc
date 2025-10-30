@@ -55,13 +55,11 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 # fzf 配置
-if [ -f ~/.fzf.zsh ]; then
-    source ~/.fzf.zsh
-elif [ -d ~/.fzf ]; then
-    # 手动设置 fzf（兼容旧版本）
+if [ -d ~/.fzf ]; then
+    # 手动设置 fzf PATH
     export PATH="$PATH:$HOME/.fzf/bin"
     
-    # 手动设置按键绑定
+    # 手动设置按键绑定（避免 fzf --zsh 兼容性问题）
     if [[ $- == *i* ]]; then
         # CTRL-T - Paste the selected file path(s) into the command line
         __fzf_select__() {
