@@ -195,6 +195,25 @@ install_zsh_plugins() {
         ~/.fzf/install --all
         log_success "fzf 安装完成"
     fi
+    
+    # bat (可选，用于 fzf 预览)
+    if ! command -v bat &> /dev/null; then
+        log_info "安装 bat (更好的 cat)..."
+        if [[ "$OS" == "ubuntu" ]] || [[ "$OS" == "debian" ]]; then
+            # 从 GitHub 下载最新版 bat
+            BAT_VERSION=$(curl -s https://api.github.com/repos/sharkdp/bat/releases/latest | grep '"tag_name"' | sed -E 's/.*"v([^"]+)".*/\1/')
+            cd /tmp
+            curl -LO "https://github.com/sharkdp/bat/releases/latest/download/bat_${BAT_VERSION}_amd64.deb"
+            sudo dpkg -i "bat_${BAT_VERSION}_amd64.deb"
+            rm "bat_${BAT_VERSION}_amd64.deb"
+            log_success "bat 安装完成"
+        elif [[ "$OS" == "macos" ]]; then
+            brew install bat
+            log_success "bat 安装完成"
+        fi
+    else
+        log_info "bat 已安装"
+    fi
 }
 
 # 配置 Zsh

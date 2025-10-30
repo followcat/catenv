@@ -53,17 +53,31 @@ export NVM_DIR="$HOME/.nvm"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # fzf 高级配置
-export FZF_DEFAULT_OPTS="
-    --height 40%
-    --layout=reverse
-    --border
-    --inline-info
-    --preview 'bat --color=always --style=numbers --line-range=:500 {}'
-    --preview-window=right:60%
-    --bind 'ctrl-/:toggle-preview'
-    --bind 'ctrl-a:select-all'
-    --bind 'ctrl-y:execute-silent(echo {+} | pbcopy)'
-"
+if command -v bat &> /dev/null; then
+    # 如果安装了 bat，使用 bat 预览
+    export FZF_DEFAULT_OPTS="
+        --height 40%
+        --layout=reverse
+        --border
+        --inline-info
+        --preview 'bat --color=always --style=numbers --line-range=:500 {}'
+        --preview-window=right:60%
+        --bind 'ctrl-/:toggle-preview'
+        --bind 'ctrl-a:select-all'
+    "
+else
+    # 否则使用 cat 预览
+    export FZF_DEFAULT_OPTS="
+        --height 40%
+        --layout=reverse
+        --border
+        --inline-info
+        --preview 'cat {}'
+        --preview-window=right:60%
+        --bind 'ctrl-/:toggle-preview'
+        --bind 'ctrl-a:select-all'
+    "
+fi
 
 # 使用 fd 替代 find（如果已安装）
 if command -v fd &> /dev/null; then

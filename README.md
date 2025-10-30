@@ -45,6 +45,7 @@ cd catenv
 
 ### Shell 增强插件
 - **fzf**: 模糊查找工具，Ctrl+R 浏览历史命令
+- **bat**: 增强版 cat，支持语法高亮（用于 fzf 预览）
 - **zsh-autosuggestions**: 基于历史的命令建议
 - **zsh-syntax-highlighting**: 命令语法高亮
 
