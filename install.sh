@@ -237,6 +237,98 @@ install_zsh_plugins() {
     fi
 }
 
+# 安装额外开发工具
+install_dev_tools() {
+    log_info "安装开发工具..."
+    
+    if [[ "$OS" == "ubuntu" ]] || [[ "$OS" == "debian" ]]; then
+        # ripgrep
+        if ! command -v rg &> /dev/null; then
+            log_info "安装 ripgrep..."
+            RG_VERSION=$(curl -s https://api.github.com/repos/BurntSushi/ripgrep/releases/latest | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+            cd /tmp
+            curl -LO "https://github.com/BurntSushi/ripgrep/releases/latest/download/ripgrep_${RG_VERSION#v}_amd64.deb"
+            sudo dpkg -i "ripgrep_${RG_VERSION#v}_amd64.deb"
+            rm "ripgrep_${RG_VERSION#v}_amd64.deb"
+            log_success "ripgrep 安装完成"
+        fi
+        
+        # fd
+        if ! command -v fd &> /dev/null && ! command -v fdfind &> /dev/null; then
+            log_info "安装 fd..."
+            FD_VERSION=$(curl -s https://api.github.com/repos/sharkdp/fd/releases/latest | grep '"tag_name"' | sed -E 's/.*"v([^"]+)".*/\1/')
+            cd /tmp
+            curl -LO "https://github.com/sharkdp/fd/releases/latest/download/fd_${FD_VERSION}_amd64.deb"
+            # 先删除冲突的 fd-find 包
+            sudo apt remove -y fd-find 2>/dev/null || true
+            sudo dpkg -i "fd_${FD_VERSION}_amd64.deb"
+            rm "fd_${FD_VERSION}_amd64.deb"
+            log_success "fd 安装完成"
+        elif command -v fdfind &> /dev/null; then
+            log_info "fd-find 已安装（命令为 fdfind）"
+        else
+            log_info "fd 已安装"
+        fi
+        
+        # httpie
+        if ! command -v http &> /dev/null; then
+            log_info "安装 httpie..."
+            sudo apt install -y httpie
+            log_success "httpie 安装完成"
+        fi
+        
+        # git-delta
+        if ! command -v delta &> /dev/null; then
+            log_info "安装 git-delta..."
+            DELTA_VERSION=$(curl -s https://api.github.com/repos/dandavison/delta/releases/latest | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
+            cd /tmp
+            curl -LO "https://github.com/dandavison/delta/releases/latest/download/git-delta_${DELTA_VERSION}_amd64.deb"
+            sudo dpkg -i "git-delta_${DELTA_VERSION}_amd64.deb"
+            rm "git-delta_${DELTA_VERSION}_amd64.deb"
+            log_success "git-delta 安装完成"
+        fi
+        
+        # lazygit
+        if ! command -v lazygit &> /dev/null; then
+            log_info "安装 lazygit..."
+            LAZYGIT_VERSION=$(curl -s https://api.github.com/repos/jesseduffield/lazygit/releases/latest | grep '"tag_name"' | sed -E 's/.*"v([^"]+)".*/\1/')
+            cd /tmp
+            curl -LO "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+            tar xf "lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+            sudo install lazygit /usr/local/bin
+            rm lazygit "lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+            log_success "lazygit 安装完成"
+        fi
+        
+        # glances
+        if ! command -v glances &> /dev/null; then
+            log_info "安装 glances..."
+            sudo apt install -y glances
+            log_success "glances 安装完成"
+        fi
+        
+    elif [[ "$OS" == "macos" ]]; then
+        brew install ripgrep fd httpie git-delta lazygit glances
+        log_success "开发工具安装完成"
+    fi
+}
+
+# 配置 git-delta
+configure_git_delta() {
+    log_info "配置 git-delta..."
+    
+    if command -v delta &> /dev/null; then
+        git config --global core.pager "delta"
+        git config --global interactive.diffFilter "delta --color-only"
+        git config --global delta.navigate true
+        git config --global delta.light false
+        git config --global delta.side-by-side true
+        git config --global merge.conflictstyle diff3
+        git config --global diff.colorMoved default
+        log_success "git-delta 配置完成"
+    fi
+}
+
 # 配置 Tmux
 configure_tmux() {
     log_info "配置 Tmux..."
@@ -375,6 +467,14 @@ print_completion_message() {
     echo "     Ctrl+T - 搜索文件"
     echo "     Alt+C  - 切换目录"
     echo ""
+    echo "  6. 新增工具:"
+    echo "     ripgrep (rg) - 快速文本搜索"
+    echo "     fd           - 现代化的 find"
+    echo "     httpie       - 友好的 HTTP 客户端"
+    echo "     git-delta    - 更好的 git diff"
+    echo "     lazygit      - Git TUI 界面"
+    echo "     glances      - 系统监控工具"
+    echo ""
     log_info "享受你的新开发环境！🚀"
     echo ""
 }
@@ -398,8 +498,10 @@ main() {
     install_nvm
     install_oh_my_zsh
     install_zsh_plugins
+    install_dev_tools
     configure_tmux
     configure_zsh
+    configure_git_delta
     set_default_shell
     
     print_completion_message

@@ -59,12 +59,21 @@ cd catenv
 ### 系统工具
 - **htop**: 交互式系统监控工具
 - **screen**: 终端复用备选方案
+- **glances**: 更强大的系统监控工具
 
 ### Shell 增强插件
 - **fzf**: 模糊查找工具，Ctrl+R 浏览历史命令
 - **bat**: 增强版 cat，支持语法高亮（用于 fzf 预览）
 - **zsh-autosuggestions**: 基于历史的命令建议
 - **zsh-syntax-highlighting**: 命令语法高亮
+
+### 开发工具
+- **ripgrep (rg)**: 超快的文本搜索工具
+- **fd**: 现代化的 find 替代品
+- **httpie**: 友好的 HTTP 客户端
+- **git-delta**: 更好的 git diff 查看器
+- **lazygit**: Git TUI 管理界面
+- **glances**: 全面的系统监控工具
 
 ### GitHub Copilot CLI
 - 配置说明和使用指南
@@ -97,6 +106,12 @@ npm --version    # 检查 npm
 pyenv --version  # 检查 Pyenv
 rye --version    # 检查 Rye
 nvim --version   # 检查 Neovim
+rg --version     # 检查 ripgrep
+fd --version     # 检查 fd
+http --version   # 检查 httpie
+delta --version  # 检查 git-delta
+lazygit --version # 检查 lazygit
+glances --version # 检查 glances
 ```
 
 2. 安装 Python 版本（可选）：
@@ -121,6 +136,24 @@ nvm use --lts
 ```bash
 npm install -g @github/copilot
 copilot auth
+```
+
+5. 使用新工具：
+```bash
+# 快速搜索代码
+rg "function" --type py
+
+# 查找文件
+fd "config" --type f
+
+# HTTP 请求
+http GET https://api.github.com
+
+# Git 可视化操作
+lazygit
+
+# 系统监控
+glances
 ```
 
 ### 快捷键
