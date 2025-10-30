@@ -213,7 +213,7 @@ install_zsh_plugins() {
     if [ ! -d "$HOME/.fzf" ]; then
         log_info "安装 fzf..."
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-        ~/.fzf/install --all
+        ~/.fzf/install --key-bindings --completion --no-update-rc --no-bash --no-fish
         log_success "fzf 安装完成"
     fi
     
