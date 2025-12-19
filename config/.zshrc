@@ -36,6 +36,9 @@ source $ZSH/oh-my-zsh.sh
 # 环境变量配置
 # ============================================
 
+# 本地用户 bin 目录（用于自定义工具，如 bat 别名）
+export PATH="$HOME/.local/bin:$PATH"
+
 # Pyenv 配置
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"

@@ -113,13 +113,18 @@ install_neovim() {
         brew install neovim
     fi
     
-    # 创建配置目录
+    # 创建配置目录并复制配置文件
     mkdir -p ~/.config/nvim
     
+    # 获取脚本所在目录的绝对路径
+    SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+    
     # 复制配置文件（如果存在）
-    if [ -f "config/init.vim" ]; then
-        cp config/init.vim ~/.config/nvim/init.vim
-        log_info "Neovim 配置文件已复制"
+    if [ -f "$SCRIPT_DIR/config/init.vim" ]; then
+        cp "$SCRIPT_DIR/config/init.vim" ~/.config/nvim/init.vim
+        log_success "Neovim 配置文件已复制"
+    else
+        log_warning "未找到 Neovim 配置文件: $SCRIPT_DIR/config/init.vim"
     fi
     
     log_success "Neovim 安装完成"
@@ -218,7 +223,7 @@ install_zsh_plugins() {
     fi
     
     # bat (可选，用于 fzf 预览)
-    if ! command -v bat &> /dev/null; then
+    if ! command -v bat &> /dev/null && ! command -v batcat &> /dev/null; then
         log_info "安装 bat (更好的 cat)..."
         if [[ "$OS" == "ubuntu" ]] || [[ "$OS" == "debian" ]]; then
             # 从 GitHub 下载最新版 bat
@@ -232,6 +237,12 @@ install_zsh_plugins() {
             brew install bat
             log_success "bat 安装完成"
         fi
+    elif command -v batcat &> /dev/null && ! command -v bat &> /dev/null; then
+        # 在 Ubuntu 上创建 bat 别名链接到 batcat
+        log_info "为 batcat 创建 bat 别名..."
+        mkdir -p ~/.local/bin
+        ln -sf /usr/bin/batcat ~/.local/bin/bat
+        log_success "bat 别名已创建"
     else
         log_info "bat 已安装"
     fi
@@ -333,6 +344,9 @@ configure_git_delta() {
 configure_tmux() {
     log_info "配置 Tmux..."
     
+    # 获取脚本所在目录的绝对路径
+    SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+    
     # 备份现有配置
     if [ -f "$HOME/.tmux.conf" ]; then
         cp "$HOME/.tmux.conf" "$HOME/.tmux.conf.backup.$(date +%Y%m%d%H%M%S)"
@@ -340,9 +354,11 @@ configure_tmux() {
     fi
     
     # 使用自定义配置
-    if [ -f "config/.tmux.conf" ]; then
-        cp config/.tmux.conf ~/.tmux.conf
-        log_info "已应用自定义 .tmux.conf 配置"
+    if [ -f "$SCRIPT_DIR/config/.tmux.conf" ]; then
+        cp "$SCRIPT_DIR/config/.tmux.conf" ~/.tmux.conf
+        log_success "已应用自定义 .tmux.conf 配置"
+    else
+        log_warning "未找到 Tmux 配置文件: $SCRIPT_DIR/config/.tmux.conf"
     fi
     
     log_success "Tmux 配置完成"
@@ -352,6 +368,9 @@ configure_tmux() {
 configure_zsh() {
     log_info "配置 Zsh..."
     
+    # 获取脚本所在目录的绝对路径
+    SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+    
     # 备份现有配置
     if [ -f "$HOME/.zshrc" ]; then
         cp "$HOME/.zshrc" "$HOME/.zshrc.backup.$(date +%Y%m%d%H%M%S)"
@@ -359,9 +378,9 @@ configure_zsh() {
     fi
     
     # 使用自定义配置
-    if [ -f "config/.zshrc" ]; then
-        cp config/.zshrc ~/.zshrc
-        log_info "已应用自定义 .zshrc 配置"
+    if [ -f "$SCRIPT_DIR/config/.zshrc" ]; then
+        cp "$SCRIPT_DIR/config/.zshrc" ~/.zshrc
+        log_success "已应用自定义 .zshrc 配置"
     else
         # 创建基础配置
         cat > ~/.zshrc << 'EOF'
