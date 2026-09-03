@@ -33,6 +33,15 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 # ============================================
+# Completion 配置（必须在 oh-my-zsh 加载后）
+# ============================================
+
+# 大小写不敏感 + 前缀补全。不要用 'l:|=* r:|=*' 子串匹配，候选会爆炸。
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*'
+# ~/Projects 这类大目录超过默认 100 项时，zsh 会停住问 y/n，看起来像卡死。
+LISTMAX=1000
+
+# ============================================
 # 环境变量配置
 # ============================================
 
@@ -151,8 +160,8 @@ else
     "
 fi
 
-# 使用 fd 替代 find（如果已安装）
-if command -v fd &> /dev/null; then
+# 使用 fd 替代 find（仅当存在外部 fd 二进制时；whence -p 忽略同名 shell 函数）
+if whence -p fd >/dev/null 2>&1; then
     export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
     export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 fi
@@ -230,13 +239,12 @@ mkcd() {
     mkdir -p "$1" && cd "$1"
 }
 
-# 快速查找文件
-ff() {
+# 快速查找文件 / 目录（勿占用 ff/fd：fd 是常用外部命令名）
+ffile() {
     find . -type f -iname "*$1*"
 }
 
-# 快速查找目录
-fd() {
+fdir() {
     find . -type d -iname "*$1*"
 }
 

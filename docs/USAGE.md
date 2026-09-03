@@ -238,9 +238,10 @@ gco                 # git checkout
 mkcd myproject      # mkdir -p myproject && cd myproject
 ```
 
-#### 查找文件
+#### 查找文件 / 目录
 ```bash
-ff "*.py"           # 查找所有 Python 文件
+ffile "*.py"        # 查找所有 Python 文件
+fdir node_modules   # 查找名为 node_modules 的目录
 ```
 
 #### 解压文件
